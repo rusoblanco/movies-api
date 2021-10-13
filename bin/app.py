@@ -1,5 +1,4 @@
 import sqlite3
-
 import flask
 from flask import jsonify, request
 
@@ -13,16 +12,14 @@ def dict_factory(cursor, row):
         d[col[0]] = row[idx]
     return d
 
-
 @app.route("/", methods=["GET"])
 def home():
     return """<h1>Distant Reading Archive</h1>
 <p>A prototype API for distant reading of Sitges festival films.</p>"""
 
-
 @app.route("/films/all", methods=["GET"])
 def api_all():
-    conn = sqlite3.connect("films.db")
+    conn = sqlite3.connect("../db/films.db")
     conn.row_factory = dict_factory
     cur = conn.cursor()
     all_films = cur.execute("SELECT * FROM films;").fetchall()
@@ -60,7 +57,7 @@ def api_filter():
 
     query = query[:-4] + ";"
 
-    conn = sqlite3.connect("films.db")
+    conn = sqlite3.connect("../db/films.db")
     conn.row_factory = dict_factory
     cur = conn.cursor()
 
